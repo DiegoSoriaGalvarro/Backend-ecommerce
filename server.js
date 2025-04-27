@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 import connectDB from "./config/db.js"; // Importar conexión MongoDB
 import dotenv from 'dotenv'; 
 
@@ -13,6 +15,10 @@ dotenv.config(); // Cargar variables de entorno
 
 const app = express();
 connectDB();
+
+// Para poder usar __dirname en módulos ESTATICOS
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Habilitar CORS
 const allowedOrigins = [
@@ -36,8 +42,12 @@ app.use("/api/productos", productoRoutes);
 app.use("/api/pedidos", pedidoRoutes);
 app.use("/api/pagos", pagosRoutes);
 
-app.get("/", (req, res) => {
-  res.send("API en ejecución...");
+// Servir archivos estáticos de la carpeta public
+app.use(express.static(path.join(__dirname, "public")));
+
+//  Para cualquier ruta que no sea API, mandar el index.html
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 const PORT = process.env.PORT || 5000;
