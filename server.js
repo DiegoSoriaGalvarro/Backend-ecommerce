@@ -22,8 +22,8 @@ const __dirname = path.dirname(__filename);
 
 // Habilitar CORS
 const allowedOrigins = [
-  "https://difabios-tienda.glitch.me",
-  "http://localhost:3000"
+   "https://difabios-tienda.glitch.me",  // Frontend en producción
+    "http://localhost:3000"                // Frontend en desarrollo
 ];
 
 app.use(cors({
@@ -42,13 +42,18 @@ app.use("/api/productos", productoRoutes);
 app.use("/api/pedidos", pedidoRoutes);
 app.use("/api/pagos", pagosRoutes);
 
-// Servir archivos estáticos de la carpeta public
-app.use(express.static(path.join(__dirname, "public")));
+// ----------------------------------------------
+// Solo en producción: servir archivos estáticos
+if (process.env.NODE_ENV === "production") {
+  const __publicPath = path.join(__dirname, "public"); // Ruta de los archivos estáticos
+  app.use(express.static(__publicPath)); // Servir archivos estáticos desde la carpeta "public"
 
-//  Para cualquier ruta que no sea API, mandar el index.html
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
+  // Ruta para servir el archivo index.html
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__publicPath, "index.html"));
+  });
+}
+// ----------------------------------------------
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Servidor corriendo en el puerto ${PORT}`));
