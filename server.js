@@ -1,15 +1,14 @@
-import express from "express";
-import cors from "cors";
-import path from "path";
-import { fileURLToPath } from "url";
-import connectDB from "./config/db.js"; // Importar conexión MongoDB
-import dotenv from 'dotenv'; 
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+const { fileURLToPath } = require("url");
+const connectDB = require("./config/db.js"); // Importar conexión MongoDB
+const dotenv = require('dotenv'); 
 
-import usuarioRoutes from "./routes/usuarioRoutes.js"; // 
-import productoRoutes from "./routes/productoRoutes.js"; // 
-import pedidoRoutes from "./routes/pedidoRoutes.js"; // 
-import pagosRoutes from "./routes/pagosRoutes.js"; // 
-
+const usuarioRoutes = require("./routes/usuarioRoutes.js");
+const productoRoutes = require("./routes/productoRoutes.js");
+const pedidoRoutes = require("./routes/pedidoRoutes.js");
+const pagosRoutes = require("./routes/pagosRoutes.js");
 
 dotenv.config(); // Cargar variables de entorno
 
@@ -23,7 +22,7 @@ const __dirname = path.dirname(__filename);
 // Habilitar CORS
 const allowedOrigins = [
    "https://difabios-tienda.glitch.me",  // Frontend en producción
-    "http://localhost:3000"                // Frontend en desarrollo
+   "http://localhost:3000"              // Frontend en desarrollo
 ];
 
 app.use(cors({
@@ -45,10 +44,9 @@ app.use("/api/pagos", pagosRoutes);
 // ----------------------------------------------
 // Solo en producción: servir archivos estáticos
 if (process.env.NODE_ENV === "production") {
-  const __publicPath = path.join(__dirname, "public"); // Ruta de los archivos estáticos
-  app.use(express.static(__publicPath)); // Servir archivos estáticos desde la carpeta "public"
+  const __publicPath = path.join(__dirname, "public");
+  app.use(express.static(__publicPath));
 
-  // Ruta para servir el archivo index.html
   app.get("*", (req, res) => {
     res.sendFile(path.join(__publicPath, "index.html"));
   });
@@ -57,4 +55,5 @@ if (process.env.NODE_ENV === "production") {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Servidor corriendo en el puerto ${PORT}`));
+
 
