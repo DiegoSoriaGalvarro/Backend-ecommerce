@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const { fileURLToPath } = require("url");
+// const { fileURLToPath } = require("url");
 const connectDB = require("./config/db.js"); // Importar conexión MongoDB
 const dotenv = require('dotenv'); 
 
@@ -16,8 +16,10 @@ const app = express();
 connectDB();
 
 // Para poder usar __dirname en módulos ESTATICOS
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+const __dirname = path.resolve(); // Esto  da el directorio actual
+
 
 // Habilitar CORS
 const allowedOrigins = [
