@@ -1,6 +1,6 @@
-// const mongoose = require("mongoose");
+//const mongoose = require("mongoose");
 import mongoose from 'mongoose';
-// require("dotenv").config(); // Cargar variables de entorno
+//require("dotenv").config(); // Cargar variables de entorno
 import dotenv from 'dotenv'; 
 
 dotenv.config(); // Cargar variables de entorno
@@ -17,4 +17,5 @@ const connectDB = async () => {
 };
 
 export default connectDB; 
+
 
