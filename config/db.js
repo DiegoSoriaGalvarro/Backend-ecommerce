@@ -1,12 +1,13 @@
-//const mongoose = require("mongoose");
 import mongoose from 'mongoose';
-//require("dotenv").config(); // Cargar variables de entorno
-import dotenv from 'dotenv'; 
+import dotenv from 'dotenv';
 
 dotenv.config(); // Cargar variables de entorno
 
 const connectDB = async () => {
   try {
+    // Configurar strictQuery antes de la conexión
+    mongoose.set('strictQuery', false);  // Cambiar a 'true' para suprimir la advertencia
+
     const connection = await mongoose.connect(process.env.MONGO_URI);
 
     console.log(`✅ MongoDB conectado: ${connection.connection.host}`);
@@ -16,6 +17,7 @@ const connectDB = async () => {
   }
 };
 
-export default connectDB; 
+export default connectDB;
+
 
 
